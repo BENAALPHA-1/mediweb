@@ -11,7 +11,7 @@ const AdminUserTable = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get("/api/admin/users");
+      const response = await axios.get("https://benedictproject.pythonanywhere.com/api/admin/users");
       setUsers(response.data);
     } catch (err) {
       setError("Failed to fetch users");
@@ -24,7 +24,7 @@ const AdminUserTable = () => {
   // Delete user or client by ID
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`/api/admin/user/${userId}`);
+      await axios.delete(`https://benedictproject.pythonanywhere.com/api/admin/user/${userId}`);
       setUsers(users.filter((user) => user.UserID !== userId)); // Remove deleted user from state
     } catch (err) {
       console.error("Error deleting user:", err);

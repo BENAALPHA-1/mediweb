@@ -69,7 +69,7 @@ const Signup = () => {
           };
 
     try {
-      const response = await fetch("/api/signup", {
+      const response = await fetch("https://benedictproject.pythonanywhere.com/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

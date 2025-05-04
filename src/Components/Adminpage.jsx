@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import AdminUserTable from "./AdminUserTable";
 import AdminDrugTable from "./AdminDrugTable";
-import AdminNavbar from "./AdminNavbar";
 import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {

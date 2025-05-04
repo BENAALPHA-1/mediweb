@@ -28,7 +28,7 @@ const Login = () => {
         setSuccess(false);
 
         try {
-            const response = await fetch("/api/signin", {
+            const response = await fetch("https://benedictproject.pythonanywhere.com/api/signin", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ UserName, UserPassword }),

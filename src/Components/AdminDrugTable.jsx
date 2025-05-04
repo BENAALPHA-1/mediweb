@@ -11,7 +11,7 @@ const AdminDrugTable = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get("/api/admin/drugs");
+      const response = await axios.get("https://benedictproject.pythonanywhere.com/api/admin/drugs");
       setDrugs(response.data);
     } catch (err) {
       setError("Failed to fetch drugs");
@@ -24,7 +24,7 @@ const AdminDrugTable = () => {
   // Delete drug by ID
   const handleDelete = async (drugId) => {
     try {
-      await axios.delete(`/api/admin/drug/${drugId}`);
+      await axios.delete(`https://benedictproject.pythonanywhere.com/api/admin/drug/${drugId}`);
       setDrugs(drugs.filter((drug) => drug.DrugID !== drugId)); // Remove deleted drug from state
     } catch (err) {
       console.error("Error deleting drug:", err);

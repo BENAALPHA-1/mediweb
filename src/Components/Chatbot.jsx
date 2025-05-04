@@ -17,7 +17,7 @@ const ChatBot = () => {
     setMessages(newMessages);
 
     try {
-      const res = await axios.post('/api/chatbot', {
+      const res = await axios.post('https://benedictproject.pythonanywhere.com/api/chatbot', {
         message: userInput
       });
 

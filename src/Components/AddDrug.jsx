@@ -36,7 +36,7 @@ const AddDrug = () => {
     data.append("ChemistLocation", formData.ChemistLocation);
 
     try {
-      const response = await axios.post("/api/add_drug", data);
+      const response = await axios.post("https://benedictproject.pythonanywhere.com/api/add_drug", data);
       setMessage("✅ " + response.data.message);
     } catch (err) {
       setMessage("❌ Failed to add drug");

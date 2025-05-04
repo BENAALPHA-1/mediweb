@@ -27,7 +27,7 @@ const FetchAllDrugs = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`/api/drugs?search=${query}`);
+      const response = await axios.get(`https://benedictproject.pythonanywhere.com//api/drugs?search=${query}`);
       const result = response.data;
       setDrugs(result);
       setNoResults(result.length === 0);

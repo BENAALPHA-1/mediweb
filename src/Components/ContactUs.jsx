@@ -22,7 +22,7 @@ const ContactUs = () => {
     e.preventDefault();
 
     try {
-      await axios.post('/api/contact', formData);
+      await axios.post('https://benedictproject.pythonanywhere.com/api/contact', formData);
 
       setShowSuccess(true);
       setFormData({ name: "", email: "", message: "" });
