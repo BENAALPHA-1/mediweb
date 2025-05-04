@@ -1,0 +1,84 @@
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+}
+
+.signup-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 450px;
+}
+
+.signup-box h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    display: flex;
+    gap: 15px;
+}
+
+.input-box {
+    flex: 1;
+    position: relative;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 12px 40px 12px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.input-box i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #888;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: #7494ec;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.btn:hover {
+    background: #5a7ed6;
+}
+.role-toggle {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.role-toggle span {
+    color: blue;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.role-toggle span:hover {
+    text-decoration: underline;
+}
