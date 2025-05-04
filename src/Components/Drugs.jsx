@@ -23,11 +23,12 @@ const FetchAllDrugs = () => {
 
   const isAuthorized = ["user", "client", "admin"].includes(userRole);
 
+  const BASE_URL = process.env.REACT_APP_API_URL;
   const fetchDrugs = async (query = "") => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`/api/drugs?search=${query}`);
+      const response = await axios.get(`${BASE_URL}/api/drugs?search=${query}`);
       const result = response.data;
       setDrugs(result);
       setNoResults(result.length === 0);
