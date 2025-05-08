@@ -1167,3 +1167,32 @@ button:last-of-type:hover {
 .pay-button:hover {
   background-color: #218838;
 }
+.scrolling-message-container {
+  width: 100%;
+  overflow: hidden; /* Hides the overflowing text */
+  position: relative;
+  background-color: #1c6b46;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scrolling-message {
+  display: inline-block;
+  font-size: 18px;
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+  white-space: nowrap;
+  animation: scroll-left 20s linear infinite;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

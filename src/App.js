@@ -26,6 +26,11 @@ function App() {
   return (
       <Router>
         <Navbar />
+        <div className="scrolling-message-container">
+          <div className="scrolling-message">
+            The web application is under development with the aim of turning it into a premium version.
+          </div>
+        </div>
         <ChatBot />
         <div className="App">
           <Routes>
