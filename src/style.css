@@ -1286,3 +1286,128 @@ button:last-of-type:hover {
   color: #a0aec0;
   font-size: 1.25rem;
 }
+
+.chatbot-container {
+  position: fixed;
+  bottom: 80px;
+  right: 30px;
+  z-index: 1000;
+}
+
+/* Popup card styles remain mostly same */
+.chatbot-popup {
+  width: 300px;
+  max-height: 400px;
+  display: none;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative; /* added so toggle can be absolutely positioned inside */
+}
+
+.chatbot-popup.open {
+  display: flex;
+}
+
+.chatbot-header {
+  background-color: #4a90e2;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.chatbot-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background: #f9f9f9;
+}
+
+.chat-message.bot {
+  background-color: #e3f2fd;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 6px;
+  align-self: flex-start;
+}
+
+.chat-message.user {
+  background-color: #d1ffd6;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 6px;
+  align-self: flex-end;
+}
+
+.chatbot-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.chatbot-footer input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  background: #f0f0f0;
+}
+
+.chatbot-footer button {
+  padding: 8px 10px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#mic-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#mic-btn:hover {
+  background-color: #0056b3;
+}
+
+/* === Updated toggle button styles === */
+.chatbot-toggle {
+  position: fixed;       /* should be fixed to the viewport */
+  bottom: 30px;          /* increase this value if it's too low */
+  right: 30px;           /* increase this value if it's too close to the right edge */
+  font-size: 28px;       /* size of the icon */
+  background-color: #4a90e2;
+  color: white;
+  border-radius: 50%;
+  padding: 14px;         /* padding affects overall size */
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  user-select: none;
+  z-index: 1000;         /* make sure it is above other elements */
+}
+
+@media (max-width: 480px) {
+  .chatbot-popup {
+    width: 90vw;
+    right: 5vw;
+  }
+
+  .chatbot-toggle {
+    font-size: 20px;
+    padding: 6px 10px;
+    top: 8px;
+    right: 8px;
+  }
+}

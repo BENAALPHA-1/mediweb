@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 
 const ChatBot = () => {
@@ -7,27 +7,82 @@ const ChatBot = () => {
     { sender: 'bot', text: 'Hi! I am MediChain Assistant. How can I help you today? 😊' }
   ]);
   const [userInput, setUserInput] = useState('');
+  const chatBodyRef = useRef(null);
 
   const toggleChat = () => setIsOpen(!isOpen);
 
-  const sendMessage = async () => {
-    if (!userInput.trim()) return;
+  const scrollToBottom = () => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  };
 
-    const newMessages = [...messages, { sender: 'user', text: userInput }];
-    setMessages(newMessages);
+  const sendMessage = useCallback(
+    async (customInput = null) => {
+      const input = customInput || userInput;
+      if (!input.trim()) return;
 
-    try {
-      const res = await axios.post('https://benedictproject.pythonanywhere.com/api/chatbot', {
-        message: userInput
-      });
+      const newMessages = [...messages, { sender: 'user', text: input }];
+      setMessages(newMessages);
 
-      setMessages([...newMessages, { sender: 'bot', text: res.data.response }]);
-    } catch (err) {
-      setMessages([...newMessages, { sender: 'bot', text: 'Something went wrong. Try again later.' }]);
+      try {
+        const res = await axios.post('https://benedictproject.pythonanywhere.com/api/chatbot', {
+          message: input
+        });
+
+        setMessages([...newMessages, { sender: 'bot', text: res.data.response }]);
+      } catch (err) {
+        setMessages([...newMessages, { sender: 'bot', text: '⚠️ Something went wrong. Try again later.' }]);
+      }
+
+      setUserInput('');
+    },
+    [userInput, messages]
+  );
+
+  useEffect(() => {
+    scrollToBottom();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages, isOpen]);
+
+  // Voice recognition setup
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      console.warn('SpeechRecognition API not supported in this browser.');
+      return;
     }
 
-    setUserInput('');
-  };
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.lang = 'en-US';
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setUserInput(transcript);
+      sendMessage(transcript);
+    };
+
+    recognition.onerror = (event) => {
+      alert('Voice recognition error: ' + event.error);
+    };
+
+    const micBtn = document.getElementById('mic-btn');
+    const handleMicStart = () => {
+      recognition.start();
+    };
+
+    if (micBtn) {
+      micBtn.addEventListener('click', handleMicStart);
+    }
+
+    return () => {
+      if (micBtn) {
+        micBtn.removeEventListener('click', handleMicStart);
+      }
+      recognition.abort();
+    };
+  }, [sendMessage]);
 
   return (
     <div className="chatbot-container">
@@ -35,13 +90,15 @@ const ChatBot = () => {
         <div className="chatbot-header" onClick={toggleChat}>
           💬 MediChain Assistant
         </div>
-        <div className="chatbot-body">
+
+        <div className="chatbot-body" ref={chatBodyRef}>
           {messages.map((msg, i) => (
             <div key={i} className={`chat-message ${msg.sender}`}>
               {msg.text}
             </div>
           ))}
         </div>
+
         <div className="chatbot-footer">
           <input
             type="text"
@@ -50,7 +107,10 @@ const ChatBot = () => {
             onChange={(e) => setUserInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
           />
-          <button onClick={sendMessage}>Send</button>
+          <div className="chatbot-buttons">
+            <button onClick={() => sendMessage()}>Send</button>
+            <button id="mic-btn">🎤</button>
+          </div>
         </div>
       </div>
 
