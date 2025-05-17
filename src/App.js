@@ -21,6 +21,7 @@ import Subscription from "./Components/Subscription";
 import ChatBot from  "./Components/Chatbot";
 import AdminDashboard from "./Components/AdminDashboard";
 import AdminUpdate from "./Components/AdminUpdate";
+import AdminUpdateForm from './Components/AdminUpdateForm';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path="/plans" element={<Subscription />} />
             <Route path="/admin/update/:id" element={<AdminUpdate />} />
             <Route path="/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/update/:type/:id" element={<AdminUpdateForm />}/>
           </Routes>
         </div>
       </Router>

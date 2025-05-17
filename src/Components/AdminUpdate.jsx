@@ -1,86 +1,49 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AdminUpdate = () => {
-  const [userData, setUserData] = useState(null);
-  const [drugData, setDrugData] = useState(null);
-  const [isUserUpdate, setIsUserUpdate] = useState(true); // Toggle between user and drug update
-  const { id } = useParams(); // Get ID from URL
+  const [updateType, setUpdateType] = useState("user"); // user, client, drug
+  const [updateId, setUpdateId] = useState("");
+  const navigate = useNavigate();
 
-  // Fetch data when ID or type of update changes
-  useEffect(() => {
-    const fetchData = async () => {
-      if (isUserUpdate) {
-        try {
-          const response = await axios.get(`https://benedictproject.pythonanywhere.com/api/admin/user/${id}`);
-          setUserData(response.data);
-        } catch (err) {
-          console.error("Error fetching user data", err);
-        }
-      } else {
-        try {
-          const response = await axios.get(`https://benedictproject.pythonanywhere.com/api/admin/drug/${id}`);
-          setDrugData(response.data);
-        } catch (err) {
-          console.error("Error fetching drug data", err);
-        }
-      }
-    };
-
-    fetchData();
-  }, [id, isUserUpdate]);
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-
-    if (isUserUpdate) {
-      try {
-        await axios.put(`https://benedictproject.pythonanywhere.com/api/admin/user/${id}`, userData);
-        alert("User updated successfully.");
-      } catch (err) {
-        console.error("Error updating user", err);
-      }
+  const handleRedirect = () => {
+    if (updateId.trim()) {
+      navigate(`/admin/update/${updateType}/${updateId}`);
     } else {
-      try {
-        await axios.put(`https://benedictproject.pythonanywhere.com/api/admin/drug/${id}`, drugData);
-        alert("Drug updated successfully.");
-      } catch (err) {
-        console.error("Error updating drug", err);
-      }
+      alert("Please enter a valid ID.");
     }
   };
 
   return (
-    <div className="update-container">
-      <h2>Update {isUserUpdate ? "User" : "Drug"}</h2>
-      <form onSubmit={handleUpdate}>
-        {isUserUpdate ? (
-          <>
-            <label>Name:</label>
-            <input
-              type="text"
-              value={userData?.name || ""}
-              onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-            />
-            {/* Add other user fields as needed */}
-          </>
-        ) : (
-          <>
-            <label>Drug Name:</label>
-            <input
-              type="text"
-              value={drugData?.name || ""}
-              onChange={(e) => setDrugData({ ...drugData, name: e.target.value })}
-            />
-            {/* Add other drug fields as needed */}
-          </>
-        )}
-        <button type="submit">Update</button>
-      </form>
-      <button onClick={() => setIsUserUpdate(!isUserUpdate)}>
-        Toggle to {isUserUpdate ? "Drug" : "User"} Update
-      </button>
+    <div className="p-6 max-w-xl mx-auto">
+      <h2 className="text-xl font-bold mb-4">Update Section</h2>
+
+      <div className="flex flex-col space-y-4 bg-white p-4 rounded shadow">
+        <select
+          value={updateType}
+          onChange={(e) => setUpdateType(e.target.value)}
+          className="border rounded px-2 py-2"
+        >
+          <option value="user">User</option>
+          <option value="client">Client</option>
+          <option value="drug">Drug</option>
+        </select>
+
+        <input
+          type="text"
+          placeholder="Enter ID to update"
+          value={updateId}
+          onChange={(e) => setUpdateId(e.target.value)}
+          className="border px-3 py-2 rounded"
+        />
+
+        <button
+          onClick={handleRedirect}
+          className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+        >
+          Go to Update Form
+        </button>
+      </div>
     </div>
   );
 };
