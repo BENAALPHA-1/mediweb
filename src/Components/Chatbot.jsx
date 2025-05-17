@@ -45,44 +45,12 @@ const ChatBot = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages, isOpen]);
 
-  // Voice recognition setup
-  useEffect(() => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      console.warn('SpeechRecognition API not supported in this browser.');
-      return;
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
     }
-
-    const recognition = new SpeechRecognition();
-    recognition.continuous = false;
-    recognition.lang = 'en-US';
-
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setUserInput(transcript);
-      sendMessage(transcript);
-    };
-
-    recognition.onerror = (event) => {
-      alert('Voice recognition error: ' + event.error);
-    };
-
-    const micBtn = document.getElementById('mic-btn');
-    const handleMicStart = () => {
-      recognition.start();
-    };
-
-    if (micBtn) {
-      micBtn.addEventListener('click', handleMicStart);
-    }
-
-    return () => {
-      if (micBtn) {
-        micBtn.removeEventListener('click', handleMicStart);
-      }
-      recognition.abort();
-    };
-  }, [sendMessage]);
+  };
 
   return (
     <div className="chatbot-container">
@@ -100,21 +68,20 @@ const ChatBot = () => {
         </div>
 
         <div className="chatbot-footer">
-          <input
-            type="text"
+          <textarea
             placeholder="Type your message..."
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+            onKeyDown={handleKeyDown}
+            rows={1}
           />
-          <div className="chatbot-buttons">
-            <button onClick={() => sendMessage()}>Send</button>
-            <button id="mic-btn">🎤</button>
-          </div>
+          <button onClick={() => sendMessage()} aria-label="Send message">
+            ➤
+          </button>
         </div>
       </div>
 
-      <div className="chatbot-toggle" onClick={toggleChat}>
+      <div className="chatbot-toggle" onClick={toggleChat} title="Toggle Chat">
         💬
       </div>
     </div>
